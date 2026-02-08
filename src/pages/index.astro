@@ -1,17 +1,18 @@
 ---
+const base = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
 const cards = [
   { title: "Kameny zmizelých", desc: "Liberec byl jedním z klíčových měst, kde se dramaticky propsaly dějiny 20. století. Projekt Stolpersteine připomíná konkrétní lidské osudy, které byly přerušeny nacistickou perzekucí, a vrací jejich jména zpět do veřejného prostoru.", img: "https://stolpersteine.memoriaeloci.cz/wp-content/uploads/2024/11/Sommer-1280x1311.webp", href: "https://stolpersteine.memoriaeloci.cz/" },
-  { title: "Ve jménu Lilie", desc: "Objevte příběh skautingu v Liberci – hnutí, které formovalo charaktery, vzdorovalo totalitám a zanechalo výraznou stopu v moderních dějinách města. Paměť odvahy, služby a hodnot.", img: "/skautsky-slib-starce-webp.webp", imgAlt: "Starší muž ve skautské uniformě dává skautský slib se zvednutou rukou a třemi prsty", imgTitle: "Starší muž ve skautské uniformě", href: "https://memoriaeloci.cz/ve-jmenu-lilie" },
-  { title: "Liberecké příběhy", desc: "Magazín o historii Liberce a okolí skrze lidské osudy, místa a události. Vyprávění, která dávají minulosti smysl a pomáhají chápat přítomnost.", img: "/historicky-letec-portret-webp.webp", imgAlt: "Historická černobílá fotografie muže v letecké helmě a brýlích", imgTitle: "Portrét leteckého pilota z minulého století", href: "https://memoriaeloci.cz/projekty/liberecke-pribehy" },
-  { title: "Zapomenutá místa", desc: "Dokumentujeme místa, která pomalu mizí z mapy i paměti města. Opuštěné, přehlížené či zapomenuté lokality, jejichž příběhy stojí za to znovu objevit.", img: "/vez-s-hodinami-cernobila-fotka-webp.webp", imgAlt: "Černobílá fotografie věže s hodinami a sochami na historické budově", imgTitle: "Historická věž s hodinami v černobílé", href: "https://memoriaeloci.cz/projekty/zapomenuta-mista-liberec" },
+  { title: "Ve jménu Lilie", desc: "Objevte příběh skautingu v Liberci – hnutí, které formovalo charaktery, vzdorovalo totalitám a zanechalo výraznou stopu v moderních dějinách města. Paměť odvahy, služby a hodnot.", img: `${base}/skautsky-slib-starce-webp.webp`, imgAlt: "Starší muž ve skautské uniformě dává skautský slib se zvednutou rukou a třemi prsty", imgTitle: "Starší muž ve skautské uniformě", href: "https://memoriaeloci.cz/ve-jmenu-lilie" },
+  { title: "Liberecké příběhy", desc: "Magazín o historii Liberce a okolí skrze lidské osudy, místa a události. Vyprávění, která dávají minulosti smysl a pomáhají chápat přítomnost.", img: `${base}/historicky-letec-portret-webp.webp`, imgAlt: "Historická černobílá fotografie muže v letecké helmě a brýlích", imgTitle: "Portrét leteckého pilota z minulého století", href: "https://memoriaeloci.cz/projekty/liberecke-pribehy" },
+  { title: "Zapomenutá místa", desc: "Dokumentujeme místa, která pomalu mizí z mapy i paměti města. Opuštěné, přehlížené či zapomenuté lokality, jejichž příběhy stojí za to znovu objevit.", img: `${base}/vez-s-hodinami-cernobila-fotka-webp.webp`, imgAlt: "Černobílá fotografie věže s hodinami a sochami na historické budově", imgTitle: "Historická věž s hodinami v černobílé", href: "https://memoriaeloci.cz/projekty/zapomenuta-mista-liberec" },
 ];
 ---
 
 <html lang="cs">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+		<link rel="icon" href={`${base}/favicon.ico`} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Místa paměti Liberce | Memoriae Loci</title>
 		<meta name="description" content="Objevujte místa paměti v Liberci a jejich zapomenuté příběhy. Memoriae Loci oživuje historii města skrze lidi, události a paměť místa." />
@@ -84,7 +85,7 @@ const cards = [
 				min-height: 100vh;
 				display: flex;
 				flex-direction: column;
-				background: url(/jested-v-zime-snezeny-stromy-webp.webp) center center / cover no-repeat;
+				background: center center / cover no-repeat;
 			}
 			.screen::after {
 				content: "";
@@ -345,11 +346,11 @@ const cards = [
 	<body>
 		<nav class="nav">
 			<div class="nav-inner">
-				<a href="/" class="nav-logo" aria-label="Memoriae Loci – úvod">
-					<img src="/memoriae-loci-logo.png" alt="Memoriae Loci" class="nav-logo-img" width="240" height="54" />
+				<a href={`${base}/`} class="nav-logo" aria-label="Memoriae Loci – úvod">
+					<img src={`${base}/memoriae-loci-logo.png`} alt="Memoriae Loci" class="nav-logo-img" width="240" height="54" />
 				</a>
 				<ul class="nav-menu">
-				<li><a href="/" class="active">DOMŮ</a></li>
+				<li><a href={`${base}/`} class="active">DOMŮ</a></li>
 				<li><a href="https://memoriaeloci.cz/magazin" target="_blank" rel="noopener noreferrer">MAGAZÍN</a></li>
 				<li><a href="https://memoriaeloci.cz/nase-vize" target="_blank" rel="noopener noreferrer">NAŠE VIZE</a></li>
 				<li><a href="https://memoriaeloci.cz/podporte-nas" target="_blank" rel="noopener noreferrer">PODPOŘTE NÁS</a></li>
@@ -358,7 +359,7 @@ const cards = [
 			</div>
 		</nav>
 
-		<div class="screen">
+		<div class="screen" style={`background-image: url(${base}/jested-v-zime-snezeny-stromy-webp.webp)`}>
 			<div class="screen-inner">
 				<section class="hero">
 					<div class="hero-inner">
