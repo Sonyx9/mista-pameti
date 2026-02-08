@@ -1,0 +1,482 @@
+---
+const cards = [
+  { title: "Kameny zmizelých", desc: "Místa v Liberci před okupací. Příběhy lidí a míst, která připomínají Stolpersteine a události druhé světové války.", img: "https://stolpersteine.memoriaeloci.cz/wp-content/uploads/2024/11/Sommer-1280x1311.webp", href: "https://stolpersteine.memoriaeloci.cz/" },
+  { title: "Ve jménu Lilie", desc: "Vývoj okolí Liberce a klíčové momenty, které utvářely krajinu i společnost. Dokumentace proměn míst v čase.", img: "/skautsky-slib-starce-webp.webp", imgAlt: "Starší muž ve skautské uniformě dává skautský slib se zvednutou rukou a třemi prsty", imgTitle: "Starší muž ve skautské uniformě", href: "https://memoriaeloci.cz/ve-jmenu-lilie" },
+  { title: "Liberecké příběhy", desc: "Magazín o historii, lidech a místech v Liberci a okolí. Živá paměť města a regionu.", img: "/historicky-letec-portret-webp.webp", imgAlt: "Historická černobílá fotografie muže v letecké helmě a brýlích", imgTitle: "Portrét leteckého pilota z minulého století", href: "https://memoriaeloci.cz/projekty/liberecke-pribehy" },
+  { title: "Zapomenutá místa", desc: "Dokumentace míst, která zmizela nebo upadla v zapomnění. Zachování stop po budovách, továrnách a životech.", img: "/vez-s-hodinami-cernobila-fotka-webp.webp", imgAlt: "Černobílá fotografie věže s hodinami a sochami na historické budově", imgTitle: "Historická věž s hodinami v černobílé", href: "https://memoriaeloci.cz/projekty/zapomenuta-mista-liberec" },
+];
+---
+
+<html lang="cs">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Místa paměti Liberce | Memoriae Loci</title>
+		<meta name="description" content="Objevujte místa paměti v Liberci a jejich zapomenuté příběhy. Memoriae Loci oživuje historii města skrze lidi, události a paměť místa." />
+		<style is:global>
+			* { box-sizing: border-box; }
+			html, body { margin: 0; padding: 0; height: 100%; }
+			body {
+				font-family: "Segoe UI", system-ui, sans-serif;
+				color: #fff;
+				background: #2c2c2c;
+			}
+
+			/* Horní lišta – logo vlevo, menu vpravo, čára pod */
+			.nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 64px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0 32px;
+				background: #0f1419;
+				border-bottom: 1px solid rgba(255,255,255,0.12);
+				z-index: 10;
+			}
+			.nav-inner {
+				display: flex;
+				align-items: center;
+				gap: 48px;
+			}
+			.nav-logo {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				color: #fff;
+				text-decoration: none;
+			}
+			.nav-logo-img {
+				height: 54px;
+				width: auto;
+				display: block;
+				filter: brightness(0) invert(1);
+			}
+			.nav-menu {
+				display: flex;
+				gap: 32px;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.nav-menu a {
+				color: rgba(255,255,255,0.85);
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.08em;
+			}
+			.nav-menu a:hover { color: #fff; }
+			.nav-menu a.active {
+				color: #e85d04;
+				border-bottom: 2px solid #e85d04;
+				padding-bottom: 2px;
+			}
+
+			/* Jedna celá obrazovka: pozadí + mřížka */
+			.screen {
+				position: relative;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				background: url(/jested-v-zime-snezeny-stromy-webp.webp) center center / cover no-repeat;
+			}
+			.screen::after {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(90deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.4) 100%);
+				pointer-events: none;
+			}
+			.screen-inner {
+				position: relative;
+				z-index: 1;
+				flex: 1;
+				display: grid;
+				grid-template-columns: 1fr;
+				grid-template-rows: auto 1fr;
+				gap: 0;
+				max-width: 1600px;
+				margin: 0 auto;
+				width: 100%;
+				padding-top: 64px;
+			}
+			@media (min-width: 1024px) {
+				.screen-inner {
+					grid-template-columns: 1fr 1fr;
+					grid-template-rows: 1fr;
+					align-items: start;
+					min-height: calc(100vh - 64px);
+					padding: 64px 40px 80px;
+				}
+			}
+
+			/* Levý sloupec – hero text (Sněžka), posunutý dolů do prostřed */
+			.hero {
+				padding: 48px 24px 32px;
+				display: flex;
+				align-items: flex-end;
+			}
+			@media (min-width: 1024px) {
+				.hero {
+					padding: 0 48px 0 24px;
+					align-items: center;
+					min-height: calc(100vh - 64px);
+				}
+			}
+			.hero-inner { max-width: 480px; }
+			.hero-sub {
+				margin: 0 0 8px;
+				font-size: 13px;
+				font-weight: 500;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+			}
+			.hero-title {
+				margin: 0 0 16px;
+				font-size: clamp(28px, 5vw, 48px);
+				font-weight: 800;
+				line-height: 1.1;
+				letter-spacing: 0.02em;
+				text-transform: uppercase;
+			}
+			.hero-p {
+				margin: 0 0 24px;
+				font-size: 14px;
+				line-height: 1.6;
+				opacity: 0.9;
+			}
+			.hero-cta {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				padding: 12px 20px;
+				background: rgba(255,255,255,0.12);
+				border: 1px solid rgba(255,255,255,0.35);
+				border-radius: 8px;
+				color: #fff;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.1em;
+				text-decoration: none;
+			}
+			.hero-cta svg { width: 18px; height: 18px; }
+
+			/* Pravý sloupec – 4 karty v řadě, začínají cca v polovině stránky */
+			.cards-wrap {
+				padding: 24px 24px 48px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+			@media (min-width: 1024px) {
+				.cards-wrap {
+					padding: 0 24px;
+					align-items: flex-end;
+					justify-content: flex-start;
+					align-self: center;
+				}
+			}
+			.cards-row-line {
+				display: flex;
+				align-items: flex-end;
+				gap: 43px;
+				width: 100%;
+				max-width: 1584px;
+				margin-bottom: 34px;
+			}
+			@media (max-width: 1023px) {
+				.cards-row-line {
+					gap: 29px;
+					max-width: 672px;
+					margin-bottom: 29px;
+				}
+			}
+			.cards-row {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 360px));
+				gap: 43px;
+				flex: 1;
+				min-width: 0;
+			}
+			@media (max-width: 1023px) {
+				.cards-row {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+					gap: 29px;
+				}
+			}
+			.card {
+				display: block;
+				position: relative;
+				border-radius: 17px;
+				overflow: hidden;
+				aspect-ratio: 3 / 4;
+				min-height: 312px;
+				background: #333;
+				transition: box-shadow 0.45s ease;
+				text-decoration: none;
+				color: inherit;
+			}
+			/* Překrývání: Kameny zmizelých nahoře, pak postupně další */
+			.card:nth-child(1) { z-index: 4; }
+			.card:nth-child(2) { z-index: 3; }
+			.card:nth-child(3) { z-index: 2; }
+			.card:nth-child(4) { z-index: 1; }
+			.card:hover,
+			.card.card-active {
+				z-index: 10;
+				box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+			}
+			.card.card-active {
+				box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+			}
+			@media (min-width: 1024px) {
+				.card { min-height: 456px; }
+			}
+			.card-img {
+				position: absolute;
+				inset: 0;
+				background: center / cover no-repeat;
+			}
+			.card-img img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				display: block;
+				vertical-align: middle;
+			}
+			.card-img-bg {
+				position: absolute;
+				inset: 0;
+				background: center / cover no-repeat;
+			}
+			.card-shade {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.2) 50%, transparent 70%);
+				transition: background 0.25s ease;
+			}
+			.card:hover .card-shade,
+			.card.card-active .card-shade {
+				background: rgba(0,0,0,0.75);
+			}
+			.card-text {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 31px;
+			}
+			.card-title {
+				margin: 0;
+				font-size: 22px;
+				font-weight: 700;
+				letter-spacing: 0.02em;
+				line-height: 1.3;
+			}
+			.card-desc {
+				margin: 17px 0 0;
+				font-size: 17px;
+				line-height: 1.5;
+				max-height: 0;
+				overflow: hidden;
+				opacity: 0;
+				transition: max-height 0.35s ease, opacity 0.3s ease;
+			}
+			.card:hover .card-desc,
+			.card.card-active .card-desc {
+				max-height: 200px;
+				opacity: 0.95;
+			}
+			@media (min-width: 1024px) {
+				.card:hover .card-desc,
+				.card.card-active .card-desc {
+					max-height: 320px;
+				}
+			}
+			.cards-footer {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				width: 100%;
+				max-width: 1584px;
+			}
+			@media (max-width: 1023px) {
+				.cards-footer {
+					max-width: 672px;
+				}
+			}
+			.cards-footer .cards-num-wrap {
+				text-align: right;
+			}
+			.cards-arrows {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+			.cards-footer button {
+				width: 44px;
+				height: 44px;
+				border: 1px solid rgba(255,255,255,0.5);
+				border-radius: 50%;
+				background: transparent;
+				color: #fff;
+				cursor: pointer;
+				font-size: 18px;
+				line-height: 1;
+			}
+			.cards-footer button:hover {
+				background: rgba(255,255,255,0.1);
+			}
+			.cards-num {
+				font-size: 24px;
+				font-weight: 700;
+				letter-spacing: 0.05em;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="nav">
+			<div class="nav-inner">
+				<a href="/" class="nav-logo" aria-label="Memoriae Loci – úvod">
+					<img src="/memoriae-loci-logo.png" alt="Memoriae Loci" class="nav-logo-img" width="240" height="54" />
+				</a>
+				<ul class="nav-menu">
+				<li><a href="/" class="active">DOMŮ</a></li>
+				<li><a href="https://memoriaeloci.cz/magazin" target="_blank" rel="noopener noreferrer">MAGAZÍN</a></li>
+				<li><a href="https://memoriaeloci.cz/nase-vize" target="_blank" rel="noopener noreferrer">NAŠE VIZE</a></li>
+				<li><a href="https://memoriaeloci.cz/podporte-nas" target="_blank" rel="noopener noreferrer">PODPOŘTE NÁS</a></li>
+				<li><a href="https://memoriaeloci.cz/kontakt" target="_blank" rel="noopener noreferrer">KONTAKT</a></li>
+			</ul>
+			</div>
+		</nav>
+
+		<div class="screen">
+			<div class="screen-inner">
+				<section class="hero">
+					<div class="hero-inner">
+						<p class="hero-sub">Memoriae Loci – Liberec</p>
+						<h1 class="hero-title">Místa Paměti</h1>
+						<p class="hero-p">
+							Místa paměti je neziskový projekt, který vrací hlas zapomenutým místům a příběhům Liberce. Prostřednictvím historického výzkumu, práce s pamětí a spolupráce s místní komunitou oživujeme osudy lidí, kteří formovali tvář města, ale z kolektivní paměti postupně mizeli. Propojujeme minulost se současností tak, aby historie nebyla jen souborem dat, ale živou zkušeností, která nás učí empatii, odpovědnosti a vztahu k místu, kde žijeme.
+						</p>
+						<a href="https://memoriaeloci.cz/" class="hero-cta" target="_blank" rel="noopener noreferrer">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+							Navštívit web
+						</a>
+					</div>
+				</section>
+
+				<div class="cards-wrap" id="cards-wrap">
+					<div class="cards-row-line">
+						<div class="cards-row">
+						{cards.map((c, i) => (
+							<a class="card" href={c.href} target="_blank" rel="noopener noreferrer" data-card-index={i}>
+								<div class="card-img">
+									{c.imgAlt ? (
+										<img src={c.img} alt={c.imgAlt} title={c.imgTitle} width="600" height="800" />
+									) : (
+										<span style={`background-image: url(${c.img})`} class="card-img-bg" />
+									)}
+								</div>
+								<div class="card-shade" />
+								<div class="card-text">
+									<h2 class="card-title">{c.title}</h2>
+									<p class="card-desc">{c.desc}</p>
+								</div>
+							</a>
+						))}
+						</div>
+					</div>
+					<div class="cards-footer">
+						<div class="cards-arrows">
+							<button type="button" id="cards-prev" aria-label="Předchozí projekt">←</button>
+							<button type="button" id="cards-next" aria-label="Další projekt">→</button>
+						</div>
+						<div class="cards-num-wrap" aria-hidden="true">
+							<span class="cards-num" id="cards-num">01</span>
+						</div>
+					</div>
+				</div>
+				<script>
+					(function() {
+						const wrap = document.getElementById('cards-wrap');
+						const numEl = document.getElementById('cards-num');
+						if (!wrap || !numEl) return;
+						const cards = wrap.querySelectorAll('.card');
+						const total = cards.length;
+						let activeIndex = 0;
+						let timer = null;
+						const INTERVAL_MS = 5000;
+
+						function format(n) { return (n + 1).toString().padStart(2, '0'); }
+
+						function setActive(index) {
+							activeIndex = index;
+							cards.forEach(function(c, i) {
+								c.classList.toggle('card-active', i === index);
+							});
+							numEl.textContent = format(index);
+						}
+
+						function next() {
+							setActive((activeIndex + 1) % total);
+						}
+
+						function prev() {
+							setActive((activeIndex - 1 + total) % total);
+						}
+
+						function startCarousel() {
+							if (timer) clearInterval(timer);
+							timer = setInterval(next, INTERVAL_MS);
+						}
+
+						function stopCarousel() {
+							if (timer) {
+								clearInterval(timer);
+								timer = null;
+							}
+						}
+
+						setActive(0);
+						startCarousel();
+
+						document.getElementById('cards-prev')?.addEventListener('click', function(e) {
+							e.preventDefault();
+							prev();
+							startCarousel();
+						});
+						document.getElementById('cards-next')?.addEventListener('click', function(e) {
+							e.preventDefault();
+							next();
+							startCarousel();
+						});
+
+						cards.forEach(function(card, i) {
+							card.addEventListener('mouseenter', function() {
+								stopCarousel();
+								setActive(i);
+							});
+							card.addEventListener('focus', function() {
+								stopCarousel();
+								setActive(i);
+							});
+						});
+
+						wrap.addEventListener('mouseleave', function() {
+							startCarousel();
+						});
+					})();
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

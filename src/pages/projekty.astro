@@ -1,0 +1,394 @@
+---
+const projects = [
+  {
+    title: "Kameny zmizelých",
+    desc: "Místa v Liberci před okupací. Příběhy lidí a míst, která připomínají Stolpersteine a události druhé světové války.",
+    img: "https://images.unsplash.com/photo-1548013146-7247a659b126?w=800",
+    href: "#",
+  },
+  {
+    title: "Ve jménu Lilie",
+    desc: "Vývoj okolí Liberce a klíčové momenty, které utvářely krajinu i společnost. Dokumentace proměn míst v čase.",
+    img: "https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=800",
+    href: "#",
+  },
+  {
+    title: "Liberecké příběhy",
+    desc: "Magazín o historii, lidech a místech v Liberci a okolí. Živá paměť města a regionu.",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+    href: "#",
+  },
+  {
+    title: "Zapomenutá místa",
+    desc: "Dokumentace míst, která zmizela nebo upadla v zapomnění. Zachování stop po budovách, továrnách a životech.",
+    img: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=800",
+    href: "#",
+  },
+];
+---
+
+<html lang="cs">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Projekty | Pamět místa</title>
+		<style is:global>
+			* { box-sizing: border-box; }
+			html, body { margin: 0; padding: 0; }
+			body {
+				font-family: "Segoe UI", system-ui, sans-serif;
+				color: #fff;
+				background: #0f1419;
+			}
+			a { color: inherit; }
+
+			/* Header – logo vlevo, menu vpravo, čára pod (bez Projekty) */
+			.page-nav {
+				position: sticky;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 64px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0 32px;
+				background: #0f1419;
+				border-bottom: 1px solid rgba(255,255,255,0.12);
+				z-index: 10;
+			}
+			.page-nav-inner {
+				display: flex;
+				align-items: center;
+				gap: 48px;
+			}
+			.page-nav-logo {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				font-weight: 700;
+				font-size: 15px;
+				letter-spacing: 0.06em;
+				color: #fff;
+				text-decoration: none;
+			}
+			.page-nav-logo-m {
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: 1.5em;
+				font-style: italic;
+				line-height: 1;
+			}
+			.page-nav-menu {
+				display: flex;
+				align-items: center;
+				gap: 32px;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.page-nav-menu a {
+				color: rgba(255,255,255,0.85);
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: 600;
+				letter-spacing: 0.08em;
+			}
+			.page-nav-menu a:hover { color: #fff; }
+			.page-nav-menu a.active {
+				color: #e85d04;
+				border-bottom: 2px solid #e85d04;
+				padding-bottom: 2px;
+			}
+
+			/* Main */
+			.main-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 64px; }
+			.page-title { margin: 0 0 12px; font-size: 2.5rem; font-weight: 700; }
+			.page-subtitle { margin: 0 0 40px; font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
+
+			/* Project grid 2x2 */
+			.projects-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 24px;
+				margin-bottom: 64px;
+			}
+			@media (max-width: 700px) {
+				.projects-grid { grid-template-columns: 1fr; }
+			}
+			.project-card {
+				position: relative;
+				border-radius: 12px;
+				overflow: hidden;
+				background: #1a1f26;
+				display: flex;
+				flex-direction: column;
+				min-height: 320px;
+			}
+			.project-card-bg {
+				position: absolute;
+				inset: 0;
+				background: center / cover no-repeat;
+				filter: grayscale(100%);
+			}
+			.project-card-shade {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+			}
+			.project-card-body {
+				position: relative;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				padding: 28px;
+			}
+			.project-card h2 { margin: 0 0 12px; font-size: 1.35rem; font-weight: 700; }
+			.project-card p { margin: 0 0 16px; font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+			.project-card a.more {
+				color: #e85d04;
+				font-size: 0.9rem;
+				font-weight: 600;
+				text-decoration: none;
+			}
+			.project-card a.more:hover { text-decoration: underline; }
+
+			/* Support section */
+			.support {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 32px;
+				align-items: stretch;
+				margin-bottom: 64px;
+				border-radius: 12px;
+				overflow: hidden;
+				background: #1a1f26;
+			}
+			@media (max-width: 800px) {
+				.support { grid-template-columns: 1fr; }
+			}
+			.support-left {
+				position: relative;
+				min-height: 280px;
+				padding: 40px 32px;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+			}
+			.support-left-bg {
+				position: absolute;
+				inset: 0;
+				background: url(https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800) center/cover no-repeat;
+				filter: grayscale(100%);
+			}
+			.support-left-shade {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 100%);
+			}
+			.support-left-content { position: relative; z-index: 1; }
+			.support-left h3 { margin: 0 0 12px; font-size: 1.5rem; font-weight: 700; }
+			.support-left .support-desc { margin: 0 0 20px; font-size: 0.95rem; line-height: 1.5; color: rgba(255,255,255,0.9); }
+			.support-detail {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				margin-bottom: 8px;
+				font-size: 0.85rem;
+			}
+			.support-detail span { opacity: 0.8; }
+			.support-detail .value { font-family: monospace; }
+			.support-detail button {
+				background: none;
+				border: none;
+				color: rgba(255,255,255,0.6);
+				cursor: pointer;
+				padding: 4px;
+			}
+			.support-detail button:hover { color: #fff; }
+			.support-left a.orange { color: #e85d04; font-weight: 600; text-decoration: none; margin-top: 16px; display: inline-block; }
+			.support-left a.orange:hover { text-decoration: underline; }
+			.support-right {
+				padding: 40px 32px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+			}
+			.support-right h3 { margin: 0 0 20px; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; }
+			.qr-placeholder {
+				width: 160px;
+				height: 160px;
+				background: #fff;
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: #333;
+				font-size: 12px;
+				margin-bottom: 16px;
+			}
+			.support-right p { margin: 0; font-size: 0.8rem; color: rgba(255,255,255,0.7); line-height: 1.4; }
+
+			/* Partners */
+			.partners { margin-bottom: 64px; }
+			.partners h3 { margin: 0 0 24px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; opacity: 0.9; }
+			.partners-row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: 32px;
+			}
+			.partner-logo {
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: rgba(255,255,255,0.5);
+				font-size: 0.85rem;
+				font-weight: 600;
+				padding: 0 16px;
+				border: 1px solid rgba(255,255,255,0.15);
+				border-radius: 6px;
+			}
+
+			/* Footer */
+			.footer {
+				background: #0a0d10;
+				padding: 48px 24px 24px;
+				border-top: 1px solid rgba(255,255,255,0.08);
+			}
+			.footer-inner { max-width: 1200px; margin: 0 auto; }
+			.footer-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 40px;
+				margin-bottom: 40px;
+			}
+			@media (max-width: 700px) {
+				.footer-grid { grid-template-columns: 1fr; }
+			}
+			.footer h4 { margin: 0 0 16px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; opacity: 0.9; }
+			.footer p, .footer .footer-links { margin: 0; font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.75); }
+			.footer-links { list-style: none; padding: 0; }
+			.footer-links a { color: rgba(255,255,255,0.75); text-decoration: none; }
+			.footer-links a:hover { color: #fff; }
+			.footer-copy {
+				text-align: center;
+				font-size: 0.8rem;
+				color: rgba(255,255,255,0.5);
+				padding-top: 24px;
+				border-top: 1px solid rgba(255,255,255,0.06);
+			}
+		</style>
+	</head>
+	<body>
+		<header class="page-nav">
+			<div class="page-nav-inner">
+				<a href="/" class="page-nav-logo">
+					<span class="page-nav-logo-m">M</span>
+					<span>PAMĚT MÍSTA</span>
+				</a>
+				<ul class="page-nav-menu">
+				<li><a href="/">DOMŮ</a></li>
+				<li><a href="https://memoriaeloci.cz/magazin" target="_blank" rel="noopener noreferrer">MAGAZÍN</a></li>
+				<li><a href="https://memoriaeloci.cz/nase-vize" target="_blank" rel="noopener noreferrer">NAŠE VIZE</a></li>
+				<li><a href="https://memoriaeloci.cz/podporte-nas" target="_blank" rel="noopener noreferrer">PODPOŘTE NÁS</a></li>
+				<li><a href="https://memoriaeloci.cz/kontakt" target="_blank" rel="noopener noreferrer">KONTAKT</a></li>
+			</ul>
+			</div>
+		</header>
+
+		<main class="main-wrap">
+			<h1 class="page-title">Projekty</h1>
+			<p class="page-subtitle">Přehled našich projektů zaměřených na dokumentaci míst a jejich příběhů.</p>
+
+			<div class="projects-grid">
+				{projects.map((p) => (
+					<article class="project-card">
+						<div class="project-card-bg" style={`background-image: url(${p.img})`} />
+						<div class="project-card-shade" />
+						<div class="project-card-body">
+							<h2>{p.title}</h2>
+							<p>{p.desc}</p>
+							<a href={p.href} class="more">Zobrazit více →</a>
+						</div>
+					</article>
+				))}
+			</div>
+
+			<section class="support">
+				<div class="support-left">
+					<div class="support-left-bg" />
+					<div class="support-left-shade" />
+					<div class="support-left-content">
+						<h3>Vaše podpora má smysl</h3>
+						<p class="support-desc">Každý příspěvek pomáhá zachovat příběhy, které by jinak zmizely. Děkujeme, že jste s námi.</p>
+						<div class="support-detail">
+							<span>Č. účtu</span>
+							<span class="value">1234567890/0800</span>
+							<button type="button" aria-label="Kopírovat">⎘</button>
+						</div>
+						<div class="support-detail">
+							<span>IBAN</span>
+							<span class="value">CZ00 0800 0000 0012 3456 7890</span>
+							<button type="button" aria-label="Kopírovat">⎘</button>
+						</div>
+						<div class="support-detail">
+							<span>BIC</span>
+							<span class="value">GIBACZPX</span>
+							<button type="button" aria-label="Kopírovat">⎘</button>
+						</div>
+						<a href="#" class="orange">Více informací o podpoře →</a>
+					</div>
+				</div>
+				<div class="support-right">
+					<h3>QR PLATBA</h3>
+					<div class="qr-placeholder">QR kód</div>
+					<p>Pro platbu naskenujte QR kód v aplikaci vaší banky.</p>
+				</div>
+			</section>
+
+			<section class="partners">
+				<h3>PARTNEŘI VYBRANÝCH AKCÍ</h3>
+				<div class="partners-row">
+					<div class="partner-logo">Liberecký kraj</div>
+					<div class="partner-logo">Knihovna Liberec</div>
+					<div class="partner-logo">FP TUL</div>
+					<div class="partner-logo">ACADEMIA</div>
+					<div class="partner-logo">SKAUT</div>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="footer-inner">
+				<div class="footer-grid">
+					<div>
+						<h4>O projektu</h4>
+						<p>Pamět místa dokumentuje historii, obchod a kulturu míst v Česku. Zachováváme příběhy lidí a míst pro další generace.</p>
+					</div>
+					<div>
+						<h4>Pamět místa, z.ú.</h4>
+						<p>Adresa, IČO, email, telefon<br />Č. účtu: 1234567890/0800</p>
+					</div>
+					<div>
+						<h4>Důležité odkazy</h4>
+						<ul class="footer-links">
+							<li><a href="/">Domů</a></li>
+							<li><a href="/projekty">Naše projekty</a></li>
+							<li><a href="#">Ochrana soukromí</a></li>
+							<li><a href="#">Obchodní podmínky</a></li>
+							<li><a href="#">Novinky</a></li>
+							<li><a href="#">Podpora</a></li>
+						</ul>
+					</div>
+				</div>
+				<p class="footer-copy">Tvořeno s láskou k historii | Pamět místa 2018–© Všechna práva vyhrazena.</p>
+			</div>
+		</footer>
+	</body>
+</html>
