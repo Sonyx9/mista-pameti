@@ -79,6 +79,69 @@ const cards = [
 				border-bottom: 2px solid #e85d04;
 				padding-bottom: 2px;
 			}
+			/* Hamburger – pouze mobil */
+			.nav-toggle {
+				display: none;
+				align-items: center;
+				justify-content: center;
+				width: 48px;
+				height: 48px;
+				padding: 0;
+				border: none;
+				background: transparent;
+				color: #fff;
+				cursor: pointer;
+				position: relative;
+				z-index: 12;
+			}
+			.nav-toggle span {
+				display: block;
+				width: 24px;
+				height: 2px;
+				background: currentColor;
+				position: absolute;
+				transition: transform 0.25s ease, opacity 0.25s ease;
+			}
+			.nav-toggle span:nth-child(1) { top: 14px; }
+			.nav-toggle span:nth-child(2) { top: 22px; }
+			.nav-toggle span:nth-child(3) { bottom: 14px; }
+			.nav.open .nav-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+			.nav.open .nav-toggle span:nth-child(2) { opacity: 0; }
+			.nav.open .nav-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+			@media (max-width: 1023px) {
+				.nav-inner { justify-content: space-between; width: 100%; }
+				.nav-toggle { display: flex; }
+				.nav-menu {
+					position: fixed;
+					top: 64px;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: #0f1419;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 0;
+					padding: 24px;
+					opacity: 0;
+					visibility: hidden;
+					transition: opacity 0.25s ease, visibility 0.25s ease;
+					z-index: 11;
+				}
+				.nav.open .nav-menu {
+					opacity: 1;
+					visibility: visible;
+				}
+				.nav-menu li { width: 100%; text-align: center; }
+				.nav-menu a {
+					display: block;
+					padding: 16px;
+					font-size: 16px;
+				}
+			}
+			@media (min-width: 1024px) {
+				.nav-menu { display: flex; }
+			}
 
 			/* Jedna celá obrazovka: pozadí + mřížka */
 			.screen {
@@ -195,10 +258,14 @@ const cards = [
 			}
 			@media (max-width: 1023px) {
 				.cards-row-line {
-					gap: 29px;
-					max-width: 672px;
-					margin-bottom: 29px;
+					flex-direction: column;
+					align-items: center;
+					gap: 16px;
+					max-width: 100%;
+					margin-bottom: 24px;
+					padding: 0 16px;
 				}
+				.cards-footer { padding: 0 16px; max-width: 100%; }
 			}
 			.cards-row {
 				display: grid;
@@ -210,7 +277,13 @@ const cards = [
 			@media (max-width: 1023px) {
 				.cards-row {
 					grid-template-columns: repeat(2, minmax(0, 1fr));
-					gap: 29px;
+					gap: 16px;
+					width: 100%;
+					max-width: 100%;
+				}
+				.card {
+					min-height: 200px;
+					aspect-ratio: 3 / 4;
 				}
 			}
 			.card {
@@ -302,6 +375,48 @@ const cards = [
 					max-height: 320px;
 				}
 			}
+			/* Tlačítko „Zjistit více“ – na desktopu skryté (celá karta je odkaz), na mobilu pod textem */
+			.card-more {
+				display: none;
+				margin-top: 14px;
+				font-size: 14px;
+				font-weight: 600;
+				color: #fff;
+				text-decoration: underline;
+				text-underline-offset: 4px;
+				align-items: center;
+				gap: 6px;
+			}
+			.card-more svg { width: 14px; height: 14px; flex-shrink: 0; }
+			@media (max-width: 1023px) {
+				.card { cursor: pointer; }
+				.card:hover .card-desc,
+				.card.card-active .card-desc {
+					max-height: 0;
+					opacity: 0;
+				}
+				.card-more {
+					display: none;
+					margin-top: 12px;
+				}
+				.card.card-expanded .card-more {
+					display: inline-flex;
+				}
+				.card.card-expanded .card-desc {
+					max-height: 200px;
+					opacity: 0.95;
+				}
+				.card .card-cover-link {
+					display: none;
+				}
+			}
+			@media (min-width: 1024px) {
+				.card-cover-link {
+					position: absolute;
+					inset: 0;
+					z-index: 2;
+				}
+			}
 			.cards-footer {
 				display: flex;
 				align-items: center;
@@ -345,11 +460,14 @@ const cards = [
 		</style>
 	</head>
 	<body>
-		<nav class="nav">
+		<nav class="nav" id="nav">
 			<div class="nav-inner">
 				<a href={`${base}/`} class="nav-logo" aria-label="Memoriae Loci – úvod">
 					<img src={`${base}/memoriae-loci-logo.png`} alt="Memoriae Loci" class="nav-logo-img" width="240" height="54" />
 				</a>
+				<button type="button" class="nav-toggle" id="nav-toggle" aria-label="Otevřít menu" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
 				<ul class="nav-menu">
 				<li><a href={`${base}/`} class="active">DOMŮ</a></li>
 				<li><a href="https://memoriaeloci.cz/magazin">MAGAZÍN</a></li>
@@ -380,7 +498,8 @@ const cards = [
 					<div class="cards-row-line">
 						<div class="cards-row">
 						{cards.map((c, i) => (
-							<a class="card" href={c.href} data-card-index={i}>
+							<div class="card" data-card-index={i} data-href={c.href}>
+								<a class="card-cover-link" href={c.href} aria-hidden="true" tabindex="-1"></a>
 								<div class="card-img">
 									{c.imgAlt ? (
 										<img src={c.img} alt={c.imgAlt} title={c.imgTitle} width="600" height="800" />
@@ -392,8 +511,11 @@ const cards = [
 								<div class="card-text">
 									<h2 class="card-title">{c.title}</h2>
 									<p class="card-desc">{c.desc}</p>
+									<a href={c.href} class="card-more">Zjistit více
+										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+									</a>
 								</div>
-							</a>
+							</div>
 						))}
 						</div>
 					</div>
@@ -476,6 +598,31 @@ const cards = [
 						wrap.addEventListener('mouseleave', function() {
 							startCarousel();
 						});
+
+						// Mobil: klik na kartu rozbalí text a zobrazí „Zjistit více“, pouze ten odkaz vede na stránku
+						var mobile = window.matchMedia('(max-width: 1023px)');
+						function handleCardClick(e) {
+							if (!mobile.matches) return;
+							var card = e.target.closest('.card');
+							if (!card) return;
+							if (e.target.closest('.card-more')) return;
+							e.preventDefault();
+							card.classList.toggle('card-expanded');
+						}
+						cards.forEach(function(card) {
+							card.addEventListener('click', handleCardClick);
+						});
+					})();
+				</script>
+				<script>
+					(function() {
+						var nav = document.getElementById('nav');
+						var toggle = document.getElementById('nav-toggle');
+						if (!nav || !toggle) return;
+						function open() { nav.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); toggle.setAttribute('aria-label', 'Zavřít menu'); }
+						function close() { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Otevřít menu'); }
+						toggle.addEventListener('click', function() { nav.classList.contains('open') ? close() : open(); });
+						nav.querySelectorAll('.nav-menu a').forEach(function(a) { a.addEventListener('click', close); });
 					})();
 				</script>
 			</div>

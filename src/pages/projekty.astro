@@ -102,21 +102,80 @@ const projects = [
 				border-bottom: 2px solid #e85d04;
 				padding-bottom: 2px;
 			}
+			/* Hamburger – pouze mobil */
+			.page-nav-toggle {
+				display: none;
+				align-items: center;
+				justify-content: center;
+				width: 48px;
+				height: 48px;
+				padding: 0;
+				border: none;
+				background: transparent;
+				color: #fff;
+				cursor: pointer;
+				position: relative;
+				z-index: 12;
+			}
+			.page-nav-toggle span {
+				display: block;
+				width: 24px;
+				height: 2px;
+				background: currentColor;
+				position: absolute;
+				transition: transform 0.25s ease, opacity 0.25s ease;
+			}
+			.page-nav-toggle span:nth-child(1) { top: 14px; }
+			.page-nav-toggle span:nth-child(2) { top: 22px; }
+			.page-nav-toggle span:nth-child(3) { bottom: 14px; }
+			.page-nav.open .page-nav-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+			.page-nav.open .page-nav-toggle span:nth-child(2) { opacity: 0; }
+			.page-nav.open .page-nav-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+			@media (max-width: 1023px) {
+				.page-nav-inner { justify-content: space-between; width: 100%; }
+				.page-nav-toggle { display: flex; }
+				.page-nav-menu {
+					position: fixed;
+					top: 64px;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: #0f1419;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					gap: 0;
+					padding: 24px;
+					opacity: 0;
+					visibility: hidden;
+					transition: opacity 0.25s ease, visibility 0.25s ease;
+					z-index: 11;
+				}
+				.page-nav.open .page-nav-menu {
+					opacity: 1;
+					visibility: visible;
+				}
+				.page-nav-menu li { width: 100%; text-align: center; }
+				.page-nav-menu a { display: block; padding: 16px; font-size: 16px; }
+			}
+			@media (min-width: 1024px) {
+				.page-nav-menu { display: flex; }
+			}
 
 			/* Main */
 			.main-wrap { max-width: 1200px; margin: 0 auto; padding: 48px 24px 64px; }
 			.page-title { margin: 0 0 12px; font-size: 2.5rem; font-weight: 700; }
 			.page-subtitle { margin: 0 0 40px; font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.5; }
 
-			/* Project grid 2x2 */
+			/* Project grid 2x2 – na mobilu i desktopu dlaždice 2x2 */
 			.projects-grid {
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
 				gap: 24px;
 				margin-bottom: 64px;
 			}
-			@media (max-width: 700px) {
-				.projects-grid { grid-template-columns: 1fr; }
+			@media (max-width: 1023px) {
+				.projects-grid { gap: 16px; }
 			}
 			.project-card {
 				position: relative;
@@ -287,12 +346,15 @@ const projects = [
 		</style>
 	</head>
 	<body>
-		<header class="page-nav">
+		<header class="page-nav" id="page-nav">
 			<div class="page-nav-inner">
 				<a href="/" class="page-nav-logo">
 					<span class="page-nav-logo-m">M</span>
 					<span>PAMĚT MÍSTA</span>
 				</a>
+				<button type="button" class="page-nav-toggle" id="page-nav-toggle" aria-label="Otevřít menu" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
 				<ul class="page-nav-menu">
 				<li><a href="/">DOMŮ</a></li>
 				<li><a href="https://memoriaeloci.cz/magazin">MAGAZÍN</a></li>
@@ -391,5 +453,16 @@ const projects = [
 				<p class="footer-copy">Tvořeno s láskou k historii | Pamět místa 2018–© Všechna práva vyhrazena.</p>
 			</div>
 		</footer>
+		<script>
+			(function() {
+				var nav = document.getElementById('page-nav');
+				var toggle = document.getElementById('page-nav-toggle');
+				if (!nav || !toggle) return;
+				function close() { nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Otevřít menu'); }
+				function open() { nav.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); toggle.setAttribute('aria-label', 'Zavřít menu'); }
+				toggle.addEventListener('click', function() { nav.classList.contains('open') ? close() : open(); });
+				nav.querySelectorAll('.page-nav-menu a').forEach(function(a) { a.addEventListener('click', close); });
+			})();
+		</script>
 	</body>
 </html>
