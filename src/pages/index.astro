@@ -351,10 +351,10 @@ const cards = [
 				</a>
 				<ul class="nav-menu">
 				<li><a href={`${base}/`} class="active">DOMŮ</a></li>
-				<li><a href="https://memoriaeloci.cz/magazin" target="_blank" rel="noopener noreferrer">MAGAZÍN</a></li>
-				<li><a href="https://memoriaeloci.cz/nase-vize" target="_blank" rel="noopener noreferrer">NAŠE VIZE</a></li>
-				<li><a href="https://memoriaeloci.cz/podporte-nas" target="_blank" rel="noopener noreferrer">PODPOŘTE NÁS</a></li>
-				<li><a href="https://memoriaeloci.cz/kontakt" target="_blank" rel="noopener noreferrer">KONTAKT</a></li>
+				<li><a href="https://memoriaeloci.cz/magazin">MAGAZÍN</a></li>
+				<li><a href="https://memoriaeloci.cz/nase-vize">NAŠE VIZE</a></li>
+				<li><a href="https://memoriaeloci.cz/podporte-nas">PODPOŘTE NÁS</a></li>
+				<li><a href="https://memoriaeloci.cz/kontakt">KONTAKT</a></li>
 			</ul>
 			</div>
 		</nav>
@@ -368,7 +368,7 @@ const cards = [
 						<p class="hero-p">
 							Místa paměti je neziskový projekt, který vrací hlas zapomenutým místům a příběhům Liberce. Prostřednictvím historického výzkumu, práce s pamětí a spolupráce s místní komunitou oživujeme osudy lidí, kteří formovali tvář města, ale z kolektivní paměti postupně mizeli. Propojujeme minulost se současností tak, aby historie nebyla jen souborem dat, ale živou zkušeností, která nás učí empatii, odpovědnosti a vztahu k místu, kde žijeme.
 						</p>
-						<a href="https://memoriaeloci.cz/" class="hero-cta" target="_blank" rel="noopener noreferrer">
+						<a href="https://memoriaeloci.cz/" class="hero-cta">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
 							Navštívit web
 						</a>
@@ -379,7 +379,7 @@ const cards = [
 					<div class="cards-row-line">
 						<div class="cards-row">
 						{cards.map((c, i) => (
-							<a class="card" href={c.href} target="_blank" rel="noopener noreferrer" data-card-index={i}>
+							<a class="card" href={c.href} data-card-index={i}>
 								<div class="card-img">
 									{c.imgAlt ? (
 										<img src={c.img} alt={c.imgAlt} title={c.imgTitle} width="600" height="800" />
